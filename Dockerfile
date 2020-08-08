@@ -60,6 +60,7 @@ WORKDIR /app
 RUN mkdir -p node_modules && chown $USER:$USER node_modules
 RUN mkdir -p public/packs && chown $USER:$USER public/packs
 RUN mkdir -p tmp/cache && chown $USER:$USER tmp/cache
+RUN mkdir -p /home/groza/Workspace/rails_app_1
 
 USER $USER
 
