@@ -1,8 +1,14 @@
 up:
 	docker-compose up -d
 
-bash:
-	docker-compose run rails bash
+stop:
+	docker-compose stop
 
-.PHONY: up
+bash:
+	docker-compose run --rm rails bash
+
+test:
+	docker-compose run --rm rails bin/rails test
+
+.PHONY: all test
 .DEFAULT_GOAL:= up

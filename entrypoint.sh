@@ -37,7 +37,7 @@ then
   # database concurrently:
   lock_setup
   # 8: Check if dependencies need to be installed and install them
-  bundle install
+  bundle install --without production
   yarn install
   # 9: Run migrations or set up the database if it doesn't exist
   # Rails >= 6
