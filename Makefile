@@ -8,7 +8,7 @@ bash:
 	docker-compose run --rm rails bash
 
 test:
-	docker-compose run --rm rails bin/rails test
+	docker-compose run --rm rails bin/rails t
 
-.PHONY: all test
+.PHONY: test
 .DEFAULT_GOAL:= up
