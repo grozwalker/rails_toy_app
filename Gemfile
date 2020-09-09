@@ -56,6 +56,7 @@ group :test do
   gem 'guard-minitest'
   gem 'minitest'
   gem 'minitest-reporters'
+  gem 'rails-controller-testing'
   gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
