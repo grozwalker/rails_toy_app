@@ -31,6 +31,9 @@ gem 'bcrypt', '~> 3.1.16'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'bootstrap', '~> 5.0.0.alpha1'
+gem 'jquery-rails'
+
+gem 'sprockets-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
