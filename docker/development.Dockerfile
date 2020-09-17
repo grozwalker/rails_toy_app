@@ -16,20 +16,13 @@ RUN apt-get update && apt-get install -y \
   git \
   netcat \
   vim \
-  sudo
+  sudo \
+  postgresql-client
   
 ARG UID
 ENV UID $UID
 ARG GID
 ENV GID $GID
-ARG USER=ruby
-ENV USER $USER
-
-RUN groupadd -g $GID $USER && \
-    useradd -u $UID -g $USER -m $USER && \
-    usermod -p "*" $USER && \
-    usermod -aG sudo $USER && \
-    echo "$USER ALL=NOPASSWD: ALL" >> /etc/sudoers.d/50-$USER
 
 ENV LANG C.UTF-8
 
@@ -42,26 +35,15 @@ ENV BUNDLE_JOBS $BUNDLE_JOBS
 ARG BUNDLE_RETRY=5
 ENV BUNDLE_RETRY $BUNDLE_RETRY
 
-ENV GEM_HOME /gems
-ENV GEM_PATH /gems
-
-ENV PATH /gems/bin:$PATH
-
-ARG INSTALL_PG_CLIENT=false
-RUN if [ "$INSTALL_PG_CLIENT" = true ]; then \
-    apt-get install -y postgresql-client \
-;fi
-
-RUN mkdir -p "$GEM_HOME" && chown $USER:$USER "$GEM_HOME"
-RUN mkdir -p /app && chown $USER:$USER /app
+RUN mkdir -p /app
 
 WORKDIR /app
 
-RUN mkdir -p node_modules && chown $USER:$USER node_modules
-RUN mkdir -p public/packs && chown $USER:$USER public/packs
-RUN mkdir -p tmp/cache && chown $USER:$USER tmp/cache
-RUN mkdir -p /home/groza/Workspace/rails_app_1
+RUN mkdir -p node_modules && mkdir -p public/packs && mkdir -p tmp/cache && mkdir -p /home/groza/Workspace/rails_app_1
 
-USER $USER
+RUN adduser --disabled-password --gecos "" docker-user && \
+  echo "docker-user ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+USER docker-user
 
 RUN gem install bundler

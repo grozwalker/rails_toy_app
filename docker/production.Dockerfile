@@ -1,53 +1,62 @@
-ARG RUBY_VERSION=2.7
-FROM ruby:$RUBY_VERSION
+FROM ruby:2.7.1-alpine AS build-env
 
-ARG DEBIAN_FRONTEND=noninteractive
+ARG RAILS_ROOT=/app
+ARG BUILD_PACKAGES="build-base curl-dev git"
+ARG DEV_PACKAGES="postgresql-dev yaml-dev zlib-dev nodejs yarn"
+ARG RUBY_PACKAGES="tzdata"
 
-ARG NODE_VERSION=12
-RUN curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | bash -
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
-  echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+ENV RAILS_ENV=production
+ENV NODE_ENV=production
+ENV BUNDLE_APP_CONFIG="$RAILS_ROOT/.bundle"
 
-RUN apt-get update && apt-get install -y \
-  build-essential \
-  nodejs \
-  yarn \
-  locales \
-  git \
-  netcat \
-  vim \
-  sudo \
-  postgresql-client
+WORKDIR $RAILS_ROOT
 
-ENV LANG C.UTF-8
+# install packages
+RUN apk update \
+    && apk upgrade \
+    && apk add --update --no-cache $BUILD_PACKAGES $DEV_PACKAGES $RUBY_PACKAGES
 
-ENV BUNDLE_PATH /gems
-ENV BUNDLE_HOME /gems
+COPY Gemfile* package.json yarn.lock ./
 
-ARG BUNDLE_JOBS=20
-ENV BUNDLE_JOBS $BUNDLE_JOBS
+# install rubygem
+COPY Gemfile Gemfile.lock $RAILS_ROOT/
 
-ARG BUNDLE_RETRY=5
-ENV BUNDLE_RETRY $BUNDLE_RETRY
+RUN bundle config --global frozen 1 \
+    && bundle config set without 'development:test:assets' \
+    && bundle install -j4 --retry 3 --path=vendor/bundle \
+    # Remove unneeded files (cached *.gem, *.o, *.c)
+    && rm -rf vendor/bundle/ruby/2.7.0/cache/*.gem \
+    && find vendor/bundle/ruby/2.7.0/gems/ -name "*.c" -delete \
+    && find vendor/bundle/ruby/2.7.0/gems/ -name "*.o" -delete
+RUN yarn install --production
 
-ENV GEM_HOME /gems
-ENV GEM_PATH /gems
+COPY . .
 
-ENV PATH /gems/bin:$PATH
+RUN bin/rails webpacker:compile
+RUN bin/rails assets:precompile
 
-ENV RAILS_ENV production
-ENV RAILS_SERVE_STATIC_FILES true
-ENV RAILS_LOG_TO_STDOUT true
+# Remove folders not needed in resulting image
+RUN rm -rf node_modules tmp/cache vendor/assets spec
 
-COPY Gemfile /usr/src/app/
-COPY Gemfile.lock /usr/src/app/
-WORKDIR /usr/src/app/
-RUN bundle config --global frozen 1
-RUN bundle config set without 'development test'
-RUN bundle install
 
-COPY . /usr/src/app
-RUN bundle exec rake DATABASE_URL=postgresql:does_not_exist assets:precompile
+############### Build step done ###############
+FROM ruby:2.7.1-alpine
+
+ARG RAILS_ROOT=/app
+ARG PACKAGES="tzdata postgresql-client nodejs bash"
+
+ENV RAILS_ENV=production
+ENV BUNDLE_APP_CONFIG="$RAILS_ROOT/.bundle"
+
+WORKDIR $RAILS_ROOT
+
+# install packages
+RUN apk update \
+    && apk upgrade \
+    && apk add --update --no-cache $PACKAGES
+
+COPY --from=build-env $RAILS_ROOT $RAILS_ROOT
 
 EXPOSE 3000
+
 CMD ["bin/rails", "server", "-b", "0.0.0.0"]
