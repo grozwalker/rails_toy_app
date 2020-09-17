@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-simple-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kube-simple-app
+  template:
+    metadata:
+      labels:
+        app: kube-simple-app
+    spec:
+      containers:
+        - name: kube-simple-app
+          image: grozwalker/simple_app:v2
+          ports:
+          - containerPort: 3000
+            protocol: TCP

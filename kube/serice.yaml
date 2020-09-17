@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kube-simple-svc
+  namespace: default
+spec:
+  type: NodePort
+  selector:
+    app: kube-simple-app
+  ports:
+    - port: 80
+      targetPort: 3000
+      nodePort: 32000
+      protocol: TCP
