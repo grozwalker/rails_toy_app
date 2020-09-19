@@ -4,10 +4,12 @@ ARG RAILS_ROOT=/app
 ARG BUILD_PACKAGES="build-base curl-dev git"
 ARG DEV_PACKAGES="postgresql-dev yaml-dev zlib-dev nodejs yarn"
 ARG RUBY_PACKAGES="tzdata"
+ARG RAILS_MASTER_KEY
 
 ENV RAILS_ENV=production
 ENV NODE_ENV=production
 ENV BUNDLE_APP_CONFIG="$RAILS_ROOT/.bundle"
+ENV RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
 
 WORKDIR $RAILS_ROOT
 
