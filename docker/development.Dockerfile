@@ -41,9 +41,11 @@ WORKDIR /app
 
 RUN mkdir -p node_modules && mkdir -p public/packs && mkdir -p tmp/cache && mkdir -p /home/groza/Workspace/rails_app_1
 
-RUN adduser --disabled-password --gecos "" docker-user && \
-  echo "docker-user ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+# RUN adduser --disabled-password --gecos "" docker-user && \
+#   echo "docker-user ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-USER docker-user
+# RUN chown -R docker-user:docker-user /app
+
+# USER docker-user
 
 RUN gem install bundler
