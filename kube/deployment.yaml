@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: simple-app
-        image: grozwalker/simple_app:fc21b13
+        image: <IMAGE>
         ports:
         - containerPort: 3000
         env:
