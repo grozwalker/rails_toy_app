@@ -38,13 +38,10 @@ jobs:
         token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
     - name: Save DigitalOcean kubeconfig
-      run: doctl kubernetes cluster kubeconfig save 2fef92db-9d8f-4a38-a833-22d992563d24
+      run: doctl kubernetes cluster kubeconfig save 0f7da534-f560-46cc-a533-0bd1bcd33b28
 
     - name: Deploy to DigitalOcean Kubernetes
       run: kubectl apply -f $GITHUB_WORKSPACE/kube/deployment.yaml
-
-    - name: Deploy service
-      run: kubectl apply -f $GITHUB_WORKSPACE/kube/service.yaml
 
     - name: Deploy ingress
       run: kubectl apply -f $GITHUB_WORKSPACE/kube/ingress.yaml
