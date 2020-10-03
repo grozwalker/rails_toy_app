@@ -2,7 +2,7 @@ FROM ruby:2.7.1-alpine AS build-env
 
 ARG RAILS_ROOT=/app
 ARG BUILD_PACKAGES="build-base curl-dev git"
-ARG DEV_PACKAGES="postgresql-dev yaml-dev zlib-dev nodejs yarn"
+ARG DEV_PACKAGES="postgresql-dev yaml-dev zlib-dev nodejs yarn sqlite sqlite-dev"
 ARG RUBY_PACKAGES="tzdata"
 ARG RAILS_MASTER_KEY
 
@@ -38,14 +38,14 @@ RUN bin/rails webpacker:compile
 RUN bin/rails assets:precompile
 
 # Remove folders not needed in resulting image
-RUN rm -rf node_modules tmp/cache vendor/assets spec
+# RUN rm -rf node_modules tmp/cache vendor/assets spec
 
 
 ############### Build step done ###############
 FROM ruby:2.7.1-alpine
 
 ARG RAILS_ROOT=/app
-ARG PACKAGES="tzdata postgresql-client nodejs bash"
+ARG PACKAGES="tzdata postgresql-client nodejs bash sqlite sqlite-dev"
 
 ENV RAILS_ENV=production
 ENV BUNDLE_APP_CONFIG="$RAILS_ROOT/.bundle"

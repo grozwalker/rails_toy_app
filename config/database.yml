@@ -27,7 +27,5 @@ test:
 
 production:
   <<: *default
-  database: docker
-  username: docker
-  password: secret
-  host: postgres
+  adapter: sqlite3
+  database: db/test.sqlite3
