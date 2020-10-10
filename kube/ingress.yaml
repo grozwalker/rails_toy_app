@@ -4,7 +4,7 @@ metadata:
   name: echo-ingress
 spec:
   rules:
-  - host: k8s.dgroza.ru
+  - host: agroza.ru
     http:
       paths:
       - backend:
