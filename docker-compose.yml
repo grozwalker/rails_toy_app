@@ -41,9 +41,12 @@ services:
     ports:
       - "7658:7658"
     volumes:
-      - .:/app
       - .:/home/groza/Workspace/rails_app_1
+      - .:/app
       - gems:/gems
+      - node_modules:/app/node_modules
+      - packs:/app/public/packs
+      - rails_cache:/app/tmp/cache
 
 volumes:
   gems:
