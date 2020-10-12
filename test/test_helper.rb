@@ -15,4 +15,8 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
   include ApplicationHelper
+
+  def logged_in?
+    !!session[:user_id]
+  end
 end
