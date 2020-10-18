@@ -58,8 +58,6 @@ class UserTest < ActiveSupport::TestCase
     dup_user = @user.dup
     @user.save
 
-    # raise @user.errors.inspect
-
     assert_not dup_user.valid?
   end
 
@@ -81,5 +79,9 @@ class UserTest < ActiveSupport::TestCase
   test 'password should have a minimum length' do
     @user.password = @user.password_confirmation = 'a' * 5
     assert_not @user.valid?
+  end
+
+  test 'authenticated? return false when rembmer digest nil' do
+    assert_not @user.authenticated?('')
   end
 end

@@ -1,4 +1,4 @@
-ARG RUBY_VERSION=2.7
+ARG RUBY_VERSION=3.0.0-preview1-alpine3.12
 FROM ruby:$RUBY_VERSION
 
 ARG DEBIAN_FRONTEND=noninteractive
@@ -26,8 +26,8 @@ ENV GID $GID
 
 ENV LANG C.UTF-8
 
-ENV BUNDLE_PATH /gems
-ENV BUNDLE_HOME /gems
+ENV BUNDLE_PATH /app/vendor
+ENV BUNDLE_HOME /app/vendor
 
 ARG BUNDLE_JOBS=20
 ENV BUNDLE_JOBS $BUNDLE_JOBS
@@ -47,5 +47,3 @@ RUN adduser --disabled-password --gecos "" docker-user && \
 RUN chown -R docker-user:docker-user /app
 
 USER docker-user
-
-RUN gem install bundler

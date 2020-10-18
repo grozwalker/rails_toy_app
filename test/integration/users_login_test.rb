@@ -36,6 +36,10 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     assert_select 'a[href=?]', logout_path
 
     delete logout_path
+
+    # Simulate a user clicking logout in a second window
+    delete logout_path
+
     assert_not logged_in?
     assert_redirected_to root_url
     follow_redirect!
@@ -54,5 +58,20 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     assert_not flash.empty?
     get root_path
     assert flash.empty?
+  end
+
+  test 'login with remember me' do
+    log_in_as @user, remember_me: '1'
+
+    assert_equal cookies[:remember_token], assigns(:user).remember_token
+  end
+
+  test 'login without remember me' do
+    log_in_as @user, remember_me: '1'
+    log_in_as @user, remember_me: '0'
+
+    # raise .inspect
+
+    assert_empty cookies[:remember_token]
   end
 end
