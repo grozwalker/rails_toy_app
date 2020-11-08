@@ -1,6 +1,13 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
+  before_action :user_logged_in, only: %i[index edit update]
+  before_action :correct_user, only: %i[edit update]
+
+  def index
+    @users = User.all
+  end
+
   def new
     @user = User.new
   end
@@ -22,6 +29,22 @@ class UsersController < ApplicationController
     end
   end
 
+  def edit
+    @user = User.find params[:id]
+  end
+
+  def update
+    @user = User.find params[:id]
+
+    if @user.update user_params
+      flash[:success] = 'Successfuly updated'
+
+      redirect_to @user
+    else
+      render 'edit'
+    end
+  end
+
   private
 
   def user_params
@@ -31,5 +54,20 @@ class UsersController < ApplicationController
       :password,
       :password_confirmation
     )
+  end
+
+  def user_logged_in
+    return if logged_in?
+
+    flash[:error] = 'Log in'
+    store_location
+
+    redirect_to login_path
+  end
+
+  def correct_user
+    @user = User.find params[:id]
+
+    redirect_to login_path unless current_user? @user
   end
 end

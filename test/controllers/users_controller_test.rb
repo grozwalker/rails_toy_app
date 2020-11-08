@@ -23,4 +23,11 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get user_url(@user)
     assert_response :success
   end
+
+  test 'index redirect for guest' do
+    get users_path
+
+    assert_redirected_to login_path
+  end
+
 end
