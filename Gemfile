@@ -34,6 +34,7 @@ gem 'bootstrap', '~> 5.0.0.alpha1'
 gem 'jquery-rails'
 
 gem 'pg'
+gem 'faker'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

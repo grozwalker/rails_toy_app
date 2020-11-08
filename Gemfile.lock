@@ -89,6 +89,8 @@ GEM
     e2mmap (0.1.0)
     erubi (1.9.0)
     execjs (2.7.0)
+    faker (2.14.0)
+      i18n (>= 1.6, < 2)
     ffi (1.13.1)
     formatador (0.2.5)
     globalid (0.4.2)
@@ -292,6 +294,7 @@ DEPENDENCIES
   bootstrap (~> 5.0.0.alpha1)
   byebug
   capybara (>= 2.15)
+  faker
   guard
   guard-minitest
   jbuilder (~> 2.7)
