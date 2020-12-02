@@ -1,2 +1,22 @@
-Documentation:
-    Enabled: false
+require:
+  - rubocop-packaging
+  - rubocop-performance
+  - rubocop-rails
+
+AllCops:
+  NewCops: enable
+  RubyInterpreters:
+    - ruby
+
+  Exclude:
+    - 'node_modules/**/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
+    - '.git/**/*'
+
+Performance:
+  Exclude:
+    - '**/test/**/*'
+
+Rails:
+  Enabled: true
