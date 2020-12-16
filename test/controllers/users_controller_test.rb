@@ -5,7 +5,8 @@ require 'test_helper'
 class UsersControllerTest < ActionDispatch::IntegrationTest
   setup do
     @user = users :andrey
-    @other_user = users :dima
+    @dima = users :dima
+    @not_admin = users :not_admin
   end
 
   test 'should get new' do
@@ -25,10 +26,11 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'not allow admin attribute update' do
-    log_in_as @other_user
-    assert_not @other_user.admin?
+    log_in_as @dima
 
-    patch user_path(@other_user), params: {
+    assert_not @not_admin.admin?
+
+    patch user_path(@not_admin), params: {
       user: {
         password: 'password',
         password_confirmation: 'password',
@@ -36,6 +38,25 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       }
     }
 
-    assert_not @other_user.reload.admin?
+    assert_not @not_admin.reload.admin?
+  end
+
+  test 'should redirect destroy when guest' do
+    assert_no_difference "User.count" do
+      delete user_url(@user)
+    end
+
+    assert_redirected_to login_url
+  end
+
+  test 'should redirect destroy unless admin' do
+    log_in_as @not_admin
+    assert_not @not_admin.admin?
+
+    assert_no_difference "User.count" do
+      delete user_url(@user)
+    end
+
+    assert_redirected_to root_url
   end
 end

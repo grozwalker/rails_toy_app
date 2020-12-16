@@ -17,8 +17,8 @@ class UsersEditTest < ActionDispatch::IntegrationTest
       user: {
         name: 'test',
         email: 'invalid@email',
-        password: 'foo',
-        password_confirmation: 'bar'
+        password: 'foopass',
+        password_confirmation: 'barpass'
       }
     }
     assert_template 'users/edit'
