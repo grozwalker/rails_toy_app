@@ -11,6 +11,7 @@ User.create!({
     email: 'ag@test.ru',
     password: 'password',
     password_confirmation: 'password',
+    admin: true
 })
 
 99.times do |n|
