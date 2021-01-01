@@ -30,6 +30,13 @@ lena:
     activated: true
     activated_at: <%= Time.zone.now %>
 
+vera:
+    name: vera
+    email: vera@test.ru
+    password_digest: <%= User.digest('test') %>
+    activated: true
+    activated_at: <%= Time.zone.now %>
+
 mama:
     name: mama
     email: mama@test.ru

@@ -14,6 +14,7 @@ User.create!({
                password: 'password',
                password_confirmation: 'password',
                admin: true,
+               activation_token: User.new_token,
                activated: true,
                activated_at: Time.zone.now
              })
@@ -26,6 +27,7 @@ User.create!({
                  email: Faker::Internet.email,
                  password: 'password',
                  password_confirmation: 'password',
+                 activation_token: User.new_token,
                  activated: activated,
                  activated_at: activated ? Time.zone.now : nil
                })
