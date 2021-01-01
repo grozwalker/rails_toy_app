@@ -11,14 +11,20 @@ User.create!({
     email: 'ag@test.ru',
     password: 'password',
     password_confirmation: 'password',
-    admin: true
+    admin: true,
+    activated: true,
+    activated_at: Time.zone.now
 })
 
 99.times do |n|
+    activated = Faker::Boolean.boolean
+
     User.create!({
         name: Faker::Name.name,
         email: Faker::Internet.email,
         password: 'password',
         password_confirmation: 'password',
+        activated: activated,
+        activated_at: activated ? Time.zone.now : nil
     })
 end

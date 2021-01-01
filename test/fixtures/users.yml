@@ -5,64 +5,90 @@ andrey:
     email: andrey@test.ru
     password_digest: <%= User.digest('test') %>
     admin: true
+    activated: true
+    activated_at: <%= Time.zone.now %>
 
 dima:
     name: DG
     email: dima@test.ru
     password_digest: <%= User.digest('test') %>
     admin: true
+    activated: true
+    activated_at: <%= Time.zone.now %>
 
 not_admin:
     name: DG
     email: not_admin@test.ru
     password_digest: <%= User.digest('test') %>
+    activated: true
+    activated_at: <%= Time.zone.now %>
 
 lena:
     name: lena
     email: lena@test.ru
     password_digest: <%= User.digest('test') %>
+    activated: true
+    activated_at: <%= Time.zone.now %>
 
 mama:
     name: mama
     email: mama@test.ru
     password_digest: <%= User.digest('test') %>
+    activated: true
+    activated_at: <%= Time.zone.now %>
 
 papa:
     name: papa
     email: papa@test.ru
     password_digest: <%= User.digest('test') %>
+    activated: true
+    activated_at: <%= Time.zone.now %>
 
 kurb:
     name: kurb
     email: kurb@test.ru
     password_digest: <%= User.digest('test') %>
+    activated: true
+    activated_at: <%= Time.zone.now %>
 
 max:
     name: max
     email: max@test.ru
     password_digest: <%= User.digest('test') %>
+    activated: true
+    activated_at: <%= Time.zone.now %>
 
 zaur:
     name: zaur
     email: zaur@test.ru
     password_digest: <%= User.digest('test') %>
+    activated: true
+    activated_at: <%= Time.zone.now %>
 
 ivan:
     name: ivan
     email: ivan@test.ru
     password_digest: <%= User.digest('test') %>
+    activated: true
+    activated_at: <%= Time.zone.now %>
 
 igor:
     name: igor
     email: igor@test.ru
     password_digest: <%= User.digest('test') %>
+    activated: true
+    activated_at: <%= Time.zone.now %>
 
 kirill:
     name: kirill
     email: kirill@test.ru
     password_digest: <%= User.digest('test') %>
+    activated: true
+    activated_at: <%= Time.zone.now %>
 
 halug:
     name: halug
     email: halug@test.ru
     password_digest: <%= User.digest('test') %>
+    activated: true
+    activated_at: <%= Time.zone.now %>
