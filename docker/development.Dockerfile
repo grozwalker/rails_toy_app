@@ -1,4 +1,4 @@
-ARG RUBY_VERSION=3.0.0-preview1-alpine3.12
+ARG RUBY_VERSION=3.0-alpine
 FROM ruby:$RUBY_VERSION
 
 ARG DEBIAN_FRONTEND=noninteractive
@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y \
   vim \
   sudo \
   postgresql-client
-  
+
 ARG UID
 ENV UID $UID
 ARG GID

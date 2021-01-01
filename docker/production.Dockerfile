@@ -1,4 +1,6 @@
-FROM ruby:2.7.1-alpine AS build-env
+# TODO Ruby version to variable
+
+FROM ruby:3.0-alpine AS build-env
 
 ARG RAILS_ROOT=/app
 ARG BUILD_PACKAGES="build-base curl-dev git"
@@ -42,7 +44,7 @@ RUN bin/rails assets:precompile
 
 
 ############### Build step done ###############
-FROM ruby:2.7.1-alpine
+FROM ruby:3.0-alpine
 
 ARG RAILS_ROOT=/app
 ARG PACKAGES="tzdata postgresql-client nodejs bash sqlite sqlite-dev"
