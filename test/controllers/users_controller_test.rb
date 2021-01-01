@@ -42,7 +42,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should redirect destroy when guest' do
-    assert_no_difference "User.count" do
+    assert_no_difference 'User.count' do
       delete user_url(@user)
     end
 
@@ -53,7 +53,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     log_in_as @not_admin
     assert_not @not_admin.admin?
 
-    assert_no_difference "User.count" do
+    assert_no_difference 'User.count' do
       delete user_url(@user)
     end
 

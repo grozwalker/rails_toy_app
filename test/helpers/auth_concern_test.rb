@@ -16,7 +16,7 @@ class AuthConcernTest < ActionView::TestCase
   end
 
   test 'current user return nil when remember digest is wrong' do
-    @user.update_attribute(:remember_digest, User.digest(User.new_token))
+    @user.update!(remember_digest: User.digest(User.new_token))
 
     assert_nil current_user
   end

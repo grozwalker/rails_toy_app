@@ -1,11 +1,13 @@
-module ApplicationHelper
-    def full_title(page_title = '')
-        base_title = 'Ruby on Rails Tutorial Sample App'
+# frozen_string_literal: true
 
-        if page_title.empty?
-            base_title
-        else
-            "#{page_title} | #{base_title}"
-        end
+module ApplicationHelper
+  def full_title(page_title = '')
+    base_title = 'Ruby on Rails Tutorial Sample App'
+
+    if page_title.empty?
+      base_title
+    else
+      "#{page_title} | #{base_title}"
     end
+  end
 end

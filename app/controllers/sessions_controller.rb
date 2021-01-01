@@ -3,6 +3,7 @@
 class SessionsController < ApplicationController
   def new; end
 
+  # rubocop:todo Metrics/AbcSize
   def create
     @user = User.find_by email: params[:session][:email].downcase
 
@@ -16,6 +17,7 @@ class SessionsController < ApplicationController
       render 'new'
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   def destroy
     log_out if logged_in?

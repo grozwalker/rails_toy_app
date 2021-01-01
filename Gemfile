@@ -33,8 +33,8 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bootstrap', '~> 5.0.0.alpha1'
 gem 'jquery-rails'
 
-gem 'pg'
 gem 'faker'
+gem 'pg'
 gem 'will_paginate', '~> 3.1.0'
 gem 'will_paginate-bootstrap4'
 
@@ -47,9 +47,9 @@ group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'listen', '~> 3.2'
   gem 'rubocop'
-  gem 'rubocop-rails'
   gem 'rubocop-packaging'
   gem 'rubocop-performance'
+  gem 'rubocop-rails'
   gem 'solargraph', '~> 0.39.17'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'

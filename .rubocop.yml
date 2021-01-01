@@ -4,6 +4,7 @@ require:
   - rubocop-rails
 
 AllCops:
+  TargetRubyVersion: 2.7
   NewCops: enable
   RubyInterpreters:
     - ruby
@@ -20,3 +21,6 @@ Performance:
 
 Rails:
   Enabled: true
+
+Style/Documentation:
+  Enabled: false
