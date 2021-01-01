@@ -17,8 +17,8 @@ module ActiveSupport
     # Add more helper methods to be used by all tests here...
     include ApplicationHelper
 
-    def logged_in?
-      session[:user_id]
+    def is_logged_in?
+      !session[:user_id].nil?
     end
 
     def log_in_as(user)

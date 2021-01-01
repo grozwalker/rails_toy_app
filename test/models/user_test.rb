@@ -81,7 +81,7 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.valid?
   end
 
-  test 'authenticated? return false when rembmer digest nil' do
-    assert_not @user.authenticated?('')
+  test 'authenticated? return false when remember digest nil' do
+    assert_not @user.authenticated?(:remember, '')
   end
 end

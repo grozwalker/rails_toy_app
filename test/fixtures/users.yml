@@ -99,3 +99,8 @@ halug:
     password_digest: <%= User.digest('test') %>
     activated: true
     activated_at: <%= Time.zone.now %>
+
+not_activated:
+    name: not_activated
+    email: not_activated@test.ru
+    password_digest: <%= User.digest('test') %>

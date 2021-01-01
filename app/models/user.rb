@@ -37,10 +37,14 @@ class User < ApplicationRecord
     update!(remember_digest: nil)
   end
 
-  def authenticated?(remember_token)
-    return false if remember_token.empty?
+  def authenticated?(type, token)
+    digest = send("#{type}_digest")
 
-    BCrypt::Password.new(remember_digest).is_password? remember_token
+    return false if digest.nil?
+
+    # raise digest.inspect
+
+    BCrypt::Password.new(digest).is_password? token
   end
 
   private
@@ -51,6 +55,6 @@ class User < ApplicationRecord
 
   def create_activation_token
     self.activation_token = User.new_token
-    self.activation_digest = User.digest(remember_token)
+    self.activation_digest = User.digest(activation_token)
   end
 end
