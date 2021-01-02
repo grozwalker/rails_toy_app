@@ -6,6 +6,7 @@ class UserMailerTest < ActionMailer::TestCase
   def setup
     @user = users :lena
     @user.activation_token = User.new_token
+    @user.reset_token = User.new_token
   end
 
   test 'account_activation' do
@@ -19,8 +20,8 @@ class UserMailerTest < ActionMailer::TestCase
   test 'password_reset' do
     mail = UserMailer.with(user: @user).password_reset
     assert_equal 'Password reset', mail.subject
-    assert_equal ['to@example.org'], mail.to
+    assert_equal [@user.email], mail.to
     assert_equal ['noreplay@example.com'], mail.from
-    assert_match 'Hi', mail.body.encoded
+    assert_match 'Password reset', mail.body.encoded
   end
 end

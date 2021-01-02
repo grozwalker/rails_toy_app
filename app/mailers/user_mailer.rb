@@ -18,8 +18,8 @@ class UserMailer < ApplicationMailer
   #   en.user_mailer.password_reset.subject
   #
   def password_reset
-    @greeting = 'Hi'
+    @user = params[:user]
 
-    mail to: 'to@example.org'
+    mail to: @user.email
   end
 end
