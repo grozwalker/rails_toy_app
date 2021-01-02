@@ -41,7 +41,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
 
     assert_not user.activated?
 
-    #Log in before activation
+    # Log in before activation
     log_in_as user
     assert_not is_logged_in?
 
