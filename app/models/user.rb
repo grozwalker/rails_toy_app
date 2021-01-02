@@ -42,8 +42,6 @@ class User < ApplicationRecord
 
     return false if digest.nil?
 
-    # raise digest.inspect
-
     BCrypt::Password.new(digest).is_password? token
   end
 
@@ -68,6 +66,10 @@ class User < ApplicationRecord
               reset_digest: User.digest(reset_token),
               reset_sent_at: Time.zone.now
             })
+  end
+
+  def password_reset_expired?
+    reset_sent_at < 2.hours.ago
   end
 
   private
