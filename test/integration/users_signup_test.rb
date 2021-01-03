@@ -43,15 +43,15 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
 
     # Log in before activation
     log_in_as user
-    assert_not is_logged_in?
+    assert_not user_logged_in?
 
     # Wrong token
     get edit_account_activation_url('wrong token', email: user.email)
-    assert_not is_logged_in?
+    assert_not user_logged_in?
 
     # Wrong email
     get edit_account_activation_url(user.activation_token, email: 'wrong email')
-    assert_not is_logged_in?
+    assert_not user_logged_in?
 
     # Correct info
     get edit_account_activation_url(user.activation_token, email: user.email)
@@ -62,6 +62,6 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     assert_template 'users/show'
     assert_select 'div.alert-success'
 
-    assert is_logged_in?
+    assert user_logged_in?
   end
 end
