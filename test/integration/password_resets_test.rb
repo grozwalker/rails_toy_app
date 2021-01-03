@@ -92,6 +92,7 @@ class PasswordResetsTest < ActionDispatch::IntegrationTest
       }
     }
 
+    assert_nil user.reload.reset_digest
     assert user_logged_in?
     assert_redirected_to user
   end
