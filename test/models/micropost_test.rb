@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class MicropostTest < ActiveSupport::TestCase
@@ -25,5 +27,11 @@ class MicropostTest < ActiveSupport::TestCase
     @micropost.content = 'a' * 141
 
     assert_not @micropost.valid?
+  end
+
+  test 'check micropost order' do
+    micropost = microposts :most_resent
+
+    assert_equal micropost, Micropost.first
   end
 end
