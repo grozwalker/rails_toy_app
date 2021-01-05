@@ -33,10 +33,12 @@ User.create!({
                })
 end
 
-200.times do |n|
+users = User.order(created_at: :desc).take(6)
+
+200.times do |_n|
   Micropost.create!({
-    content: Faker::Lorem.sentences(number: 4),
-    user: User.find(User.pluck(:id).sample),
-    created_at: Faker::Date.between(from: 1.year.ago, to: Time.zone.now)
-  })
+                      content: Faker::Lorem.sentence,
+                      user: User.find(users.sample),
+                      created_at: Faker::Date.between(from: 1.year.ago, to: Time.zone.now)
+                    })
 end
