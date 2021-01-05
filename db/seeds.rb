@@ -32,3 +32,11 @@ User.create!({
                  activated_at: activated ? Time.zone.now : nil
                })
 end
+
+200.times do |n|
+  Micropost.create!({
+    content: Faker::Lorem.sentences(number: 4),
+    user: User.find(User.pluck(:id).sample),
+    created_at: Faker::Date.between(from: 1.year.ago, to: Time.zone.now)
+  })
+end
