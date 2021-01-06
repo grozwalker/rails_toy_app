@@ -74,15 +74,6 @@ class UsersController < ApplicationController
     )
   end
 
-  def user_logged_in
-    return if logged_in?
-
-    flash[:error] = 'Log in'
-    store_location
-
-    redirect_to login_path
-  end
-
   def correct_user
     @user = User.find params[:id]
 
