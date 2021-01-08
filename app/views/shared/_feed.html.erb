@@ -1,5 +1,6 @@
-<% if %>
+<% if @feed.any? %>
   <ol class="microposts">
     <%= render partial: "shared/micropost", collection: @feed %>
   </ol>
+  <%= will_paginate @feed, params: { controller: :static_pages, action: :home} %>
 <% end %>

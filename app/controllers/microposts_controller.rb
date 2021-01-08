@@ -13,7 +13,9 @@ class MicropostsController < ApplicationController
     else
       flash[:error] = 'Cant create micropost'
 
-      render 'static_page/home'
+      @feed = current_user.feed.paginate page: params[:page], per_page: 2
+
+      render 'static_pages/home'
     end
   end
 
