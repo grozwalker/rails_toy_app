@@ -3,6 +3,7 @@
 class MicropostsController < ApplicationController
   before_action :user_logged_in, only: %i[create destroy]
 
+  # rubocop:todo Metrics/AbcSize
   def create
     @micropost = current_user.microposts.new micropost_params
 
@@ -12,12 +13,12 @@ class MicropostsController < ApplicationController
       redirect_to root_url
     else
       flash[:error] = 'Cant create micropost'
-
-      @feed = current_user.feed.paginate page: params[:page], per_page: 2
+      @feed = current_user.feed.paginate page: params[:page]
 
       render 'static_pages/home'
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   def destroy; end
 
