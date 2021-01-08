@@ -12,7 +12,7 @@
     <% if @microposts.any? %>
         <div class="col-md-8">
             <h1>Microposts (<%= @microposts.size %>)</h1>
-            <%= render partial: "micropost", collection: @microposts %>
+            <%= render partial: "shared/micropost", collection: @microposts %>
         </div>
 
         <%= will_paginate @microposts %>
