@@ -26,7 +26,7 @@ class MicropostsController < ApplicationController
 
     flash[:success] = 'Successfully destroyed'
 
-    redirect_to request.referrer || root_url
+    redirect_to request.referer || root_url
   end
 
   private
@@ -38,9 +38,9 @@ class MicropostsController < ApplicationController
   def correct_user
     @micropost = current_user.microposts.find_by(id: params[:id])
 
-    if @micropost.nil?
-      flash[:error] = 'Cant delete micropost'
-      redirect_to root_url
-    end
+    return unless @micropost.nil?
+
+    flash[:error] = 'Cant delete micropost'
+    redirect_to root_url
   end
 end
