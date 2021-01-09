@@ -32,4 +32,15 @@ class MicropostsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to login_url
   end
+
+  test 'redirect when destroy foreign micropost' do
+    user = users :dima
+    log_in_as(user)
+
+    assert_no_difference 'Micropost.count' do
+      delete micropost_url(@micropost)
+    end
+
+    assert_redirected_to root_url
+  end
 end

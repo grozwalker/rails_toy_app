@@ -2,6 +2,7 @@
 
 class MicropostsController < ApplicationController
   before_action :user_logged_in, only: %i[create destroy]
+  before_action :correct_user, only: %i[destroy]
 
   # rubocop:todo Metrics/AbcSize
   def create
@@ -20,11 +21,26 @@ class MicropostsController < ApplicationController
   end
   # rubocop:enable Metrics/AbcSize
 
-  def destroy; end
+  def destroy
+    @micropost.destroy!
+
+    flash[:success] = 'Successfully destroyed'
+
+    redirect_to request.referrer || root_url
+  end
 
   private
 
   def micropost_params
     params.require(:micropost).permit(:content)
+  end
+
+  def correct_user
+    @micropost = current_user.microposts.find_by(id: params[:id])
+
+    if @micropost.nil?
+      flash[:error] = 'Cant delete micropost'
+      redirect_to root_url
+    end
   end
 end
