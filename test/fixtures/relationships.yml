@@ -1,21 +1,21 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+lena_vera:
   follower: lena
   followed: vera
 
-two:
+vera_lena:
   follower: vera
   followed: lena
 
-two:
+mama_papa:
   follower: mama
   followed: papa
 
-two:
+papa_mama:
   follower: papa
   followed: mama
 
-two:
+kurb_zaur:
   follower: kurb
   followed: zaur

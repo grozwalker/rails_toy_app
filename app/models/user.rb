@@ -12,6 +12,9 @@ class User < ApplicationRecord
                                   dependent: :destroy,
                                   inverse_of: :follower
 
+  has_many :following, through: :active_relationships,
+                       source: :followed
+
   validates :name, presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.freeze
   validates :email, presence: true, length: { maximum: 255 },
@@ -80,6 +83,18 @@ class User < ApplicationRecord
 
   def feed
     microposts
+  end
+
+  def follow(user)
+    following << user
+  end
+
+  def unfollow(user)
+    following.delete user
+  end
+
+  def following?(user)
+    following.include? user
   end
 
   private

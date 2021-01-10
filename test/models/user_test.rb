@@ -93,4 +93,17 @@ class UserTest < ActiveSupport::TestCase
       @user.destroy
     end
   end
+
+  test 'follow and unfollow user' do
+    kirill = users :kirill
+    halug = users :halug
+
+    assert_not kirill.following? halug
+
+    kirill.follow halug
+    assert kirill.following? halug
+
+    kirill.unfollow halug
+    assert_not kirill.following? halug
+  end
 end
