@@ -102,6 +102,7 @@ class UserTest < ActiveSupport::TestCase
 
     kirill.follow halug
     assert kirill.following? halug
+    assert halug.followers.include? kirill
 
     kirill.unfollow halug
     assert_not kirill.following? halug

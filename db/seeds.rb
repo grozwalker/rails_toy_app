@@ -19,7 +19,7 @@ User.create!({
                activated_at: Time.zone.now
              })
 
-99.times do |_n|
+50.times do |_n|
   activated = Faker::Boolean.boolean
 
   User.create!({
@@ -35,10 +35,20 @@ end
 
 users = User.order(created_at: :desc).take(6)
 
-200.times do |_n|
+50.times do |_n|
   Micropost.create!({
                       content: Faker::Lorem.sentence,
-                      user: User.find(users.sample),
+                      user: User.find(users.sample.id),
                       created_at: Faker::Date.between(from: 1.year.ago, to: Time.zone.now)
                     })
 end
+
+# Create following relationships.
+users = User.all
+user = users.first
+
+following = users[2..50]
+followers = users[3..40]
+
+following.each { |followed| user.follow(followed) }
+followers.each { |follower| follower.follow(user) }
