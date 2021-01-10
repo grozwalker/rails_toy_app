@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y \
   netcat \
   vim \
   sudo \
+  imagemagick \
   postgresql-client
 
 ARG UID
