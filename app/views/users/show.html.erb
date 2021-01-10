@@ -8,9 +8,11 @@
                 <%= @user.name %>
             </h1>
         </section>
-        <section class="micropost_form">
-            <%= render 'shared/micropost_form' %>
-        </section>
+        <% if logged_in? %>
+            <section class="micropost_form">
+                <%= render 'shared/micropost_form' %>
+            </section>
+        <% end %>
     </aside>
     <div class="col-md-8">
         <%= render 'follow_form' if logged_in? %>

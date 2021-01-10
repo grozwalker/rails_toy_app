@@ -85,4 +85,24 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
   end
+
+  test 'feed should have the right posts' do
+    mama = users :mama
+    papa = users :papa
+    zaur = users :zaur
+
+
+    mama.microposts.each do |post_following|
+      # Posts from followed user
+      assert papa.feed.include?(post_following)
+
+      # Posts from self
+      assert mama.feed.include?(post_following)
+    end
+
+    # Posts from unfollowed user
+    papa.microposts.each do |post_unfollowed|
+      assert_not zaur.feed.include?(post_unfollowed)
+    end
+  end
 end
