@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :user_logged_in, only: %i[index edit update destroy]
+  before_action :user_logged_in, only: %i[index edit update destroy following followers]
   before_action :correct_user, only: %i[edit update]
   before_action :user_admin, only: :destroy
 
@@ -61,6 +61,24 @@ class UsersController < ApplicationController
     else
       render 'index'
     end
+  end
+
+  def following
+    @title = 'Following'
+
+    @user = User.find(params[:id])
+    @users = @user.following.paginate(page: params[:page])
+
+    render 'show_follow'
+  end
+
+  def followers
+    @title = 'Followers'
+
+    @user = User.find(params[:id])
+    @users = @user.followers.paginate(page: params[:page])
+
+    render 'show_follow'
   end
 
   private

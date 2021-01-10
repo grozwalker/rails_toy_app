@@ -59,4 +59,30 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to root_url
   end
+
+  test 'guest should redirect following' do
+    get following_user_url(@user)
+
+    assert_redirected_to login_url
+  end
+
+  test 'guest should redirect followers' do
+    get followers_user_url(@user)
+
+    assert_redirected_to login_url
+  end
+
+  test 'following' do
+    log_in_as @dima
+    get following_user_url(@user)
+
+    assert_response :success
+  end
+
+  test 'followers' do
+    log_in_as @dima
+    get followers_user_url(@user)
+
+    assert_response :success
+  end
 end
