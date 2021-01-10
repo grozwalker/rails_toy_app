@@ -19,6 +19,7 @@ class UsersController < ApplicationController
     redirect_to root_path and return unless @user.activated
 
     @microposts = @user.microposts.paginate page: params[:page]
+    @micropost = current_user.microposts.new
   end
 
   def create
