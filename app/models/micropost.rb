@@ -8,4 +8,5 @@ class Micropost < ApplicationRecord
 
   validates :user, presence: true
   validates :content, presence: true, length: { maximum: 140 }
+  validates :image, content_type: %i[png jpg jpeg]
 end
