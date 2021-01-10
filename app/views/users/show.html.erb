@@ -9,12 +9,12 @@
             </h1>
         </section>
     </aside>
-    <% if @microposts.any? %>
-        <div class="col-md-8">
-            <h1>Microposts (<%= @microposts.size %>)</h1>
-            <%= render partial: "shared/micropost", collection: @microposts %>
-        </div>
-
-        <%= will_paginate @microposts %>
-    <% end %>
+    <div class="col-md-8">
+        <%= render 'follow_form' if logged_in? %>
+        <% if @microposts.any? %>
+                <h1>Microposts (<%= @microposts.size %>)</h1>
+                <%= render partial: "shared/micropost", collection: @microposts %>
+            <%= will_paginate @microposts %>
+        <% end %>
+    </div>
 </div>
