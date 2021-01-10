@@ -91,7 +91,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     papa = users :papa
     zaur = users :zaur
 
-
     mama.microposts.each do |post_following|
       # Posts from followed user
       assert papa.feed.include?(post_following)
