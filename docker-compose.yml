@@ -25,9 +25,11 @@ services:
       - "3000:3000"
     tty: true
     stdin_open: true
+    depends_on:
+      - db
 
-  postgres:
-    image: postgres:12.3
+  db:
+    image: postgres:13.1
     environment:
       POSTGRES_USER: docker
       POSTGRES_DB: docker
