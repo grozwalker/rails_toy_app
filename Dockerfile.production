@@ -30,11 +30,11 @@ RUN apt-get -yqq install docker-ce docker-ce-cli containerd.io
 
 # VOLUME tmp/cache
 
-COPY config/certs/docker-client* /etc/certs/docker/
-COPY config/certs/deploy_rsa* /root/.ssh/
+# COPY config/certs/docker-client* /etc/certs/docker/
+# COPY config/certs/deploy_rsa* /root/.ssh/
 # COPY config/ssh.development /root/.ssh/config
-COPY config/ssh.production /root/.ssh/config
-RUN chmod 600 -R /root/.ssh/
+# COPY config/ssh.production /root/.ssh/config
+# RUN chmod 600 -R /root/.ssh/
 
 COPY Gemfile .
 COPY Gemfile.lock .
