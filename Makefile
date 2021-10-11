@@ -24,5 +24,13 @@ cluster-create:
 cluster-destroy:
 	terraform adestroy ./terraform
 
+start-production:
+	bin/rails db:migrate
+	bin/rails server -e production
+
+ci-test:
+	bin/rails t
+	bundler exec rubocop
+
 .PHONY: test
 .DEFAULT_GOAL:= up

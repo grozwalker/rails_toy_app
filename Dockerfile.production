@@ -1,0 +1,85 @@
+FROM ruby:3.0.2
+
+ENV LANG C.UTF-8
+
+# throw errors if Gemfile has been modified since Gemfile.lock
+RUN bundle config --global frozen 1
+
+RUN mkdir -p /root/hexlet
+WORKDIR /root/hexlet
+
+RUN apt-get update
+RUN apt-get install -yqq software-properties-common apt-transport-https
+RUN apt-get install -yqq libvips libvips-dev libxslt-dev libxml2-dev libwxbase3.0 libwxgtk3.0-gtk3-dev libicu-dev build-essential patch ruby-dev zlib1g-dev liblzma-dev libsodium-dev pkg-config
+RUN apt-get install -yqq lsof telnet unzip imagemagick wget git cmake make ca-certificates
+
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - \
+  && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+  && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
+
+RUN curl -sS https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
+      && echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list
+
+RUN apt-get update
+RUN apt-get -yqq install postgresql-client-12 nodejs yarn
+RUN apt-get -yqq install docker-ce docker-ce-cli containerd.io
+
+# VOLUME tmp/cache
+
+COPY config/certs/docker-client* /etc/certs/docker/
+COPY config/certs/deploy_rsa* /root/.ssh/
+# COPY config/ssh.development /root/.ssh/config
+COPY config/ssh.production /root/.ssh/config
+RUN chmod 600 -R /root/.ssh/
+
+COPY Gemfile .
+COPY Gemfile.lock .
+
+COPY .bundle .bundle
+
+RUN RAILS_ENV=production bundle install --jobs $(nproc)
+
+COPY .npmrc .
+COPY package.json .
+COPY yarn.lock .
+
+RUN yarn install
+
+# NOTE: speed up assets:precompile as match as possible
+ENV DISABLE_SPRING 1
+
+COPY bin bin
+COPY Rakefile Rakefile
+COPY config/boot.rb config/boot.rb
+COPY config/database.yml config/database.yml
+COPY config/webpacker.yml config/webpacker.yml
+COPY config/environment.rb config/environment.rb
+COPY config/application.rb config/application.rb
+COPY config/environments/production.rb config/environments/production.rb
+# COPY app/middlewares app/middlewares
+# COPY app/lib/configus.rb app/lib/configus.rb
+COPY app/assets app/assets
+
+# TODO: remove after moving images to app/packs
+RUN WEBPACKER_PRECOMPILE=false SECRET_KEY_BASE=jopa HEXLET_DOCKER_BUILD=1 RAILS_ENV=production \
+      bin/rails assets:precompile
+
+COPY config/webpack config/webpack
+COPY app/packs app/packs
+
+RUN SECRET_KEY_BASE=jopa HEXLET_DOCKER_BUILD=1 NODE_ENV=production RAILS_ENV=production \
+      bin/rails webpacker:compile
+
+COPY . .
+
+RUN SECRET_KEY_BASE=jopa HEXLET_DOCKER_BUILD=1 RAILS_ENV=production bin/rails app:build_job_configs
+# RUN SECRET_KEY_BASE=jopa HEXLET_DOCKER_BUILD=1 RAILS_ENV=production bin/rails sitemap:refresh:no_ping
+
+RUN bundle exec bootsnap precompile --gemfile app/
+
+# COPY config/irbrc /root/.irbrc
+CMD ["make", "start-production"]
