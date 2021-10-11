@@ -9,7 +9,7 @@ RUN mkdir -p /root/hexlet
 WORKDIR /root/hexlet
 
 RUN apt-get update
-RUN apt-get install -yqq software-properties-common apt-transport-https
+RUN apt-get install -yqq software-properties-common apt-transport-https python
 RUN apt-get install -yqq libvips libvips-dev libxslt-dev libxml2-dev libwxbase3.0 libwxgtk3.0-gtk3-dev libicu-dev build-essential patch ruby-dev zlib1g-dev liblzma-dev libsodium-dev pkg-config
 RUN apt-get install -yqq lsof telnet unzip imagemagick wget git cmake make ca-certificates
 
