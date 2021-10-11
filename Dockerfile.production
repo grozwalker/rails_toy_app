@@ -43,7 +43,7 @@ COPY .bundle .bundle
 
 RUN RAILS_ENV=production bundle install --jobs $(nproc)
 
-COPY .npmrc .
+# COPY .npmrc .
 COPY package.json .
 COPY yarn.lock .
 
