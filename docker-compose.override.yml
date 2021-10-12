@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/development.Dockerfile
+    environment:
+      - DATABASE_USER=postgres
+      - DATABASE_HOST=postgres
+    # entrypoint: ./entrypoint.sh
+    command: ''
+    volumes:
+      - .:/app
+      - gems:/gems
+      - node_modules:/app/node_modules
+      - packs:/app/public/packs
+      - rails_cache:/app/tmp/cache
+    ports:
+      - "3000:3000"
+    tty: true
+    stdin_open: true
+
+volumes:
+  gems:
+  node_modules:
+  packs:
+  rails_cache:

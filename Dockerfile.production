@@ -19,7 +19,7 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - \
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
   && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 
 RUN curl -sS https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
       && echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list
@@ -65,18 +65,21 @@ COPY config/environments/production.rb config/environments/production.rb
 COPY app/assets app/assets
 
 # TODO: remove after moving images to app/packs
-RUN WEBPACKER_PRECOMPILE=false SECRET_KEY_BASE=jopa HEXLET_DOCKER_BUILD=1 RAILS_ENV=production \
+RUN WEBPACKER_PRECOMPILE=false SECRET_KEY_BASE=jopa HEXLET_DOCKER_BUILD=1 RAILS_MASTER_KEY=jopa RAILS_ENV=production \
       bin/rails assets:precompile
 
 COPY config/webpack config/webpack
 COPY app/javascript app/javascript
+COPY postcss.config.js .
 
-RUN SECRET_KEY_BASE=jopa HEXLET_DOCKER_BUILD=1 NODE_ENV=production RAILS_ENV=production \
+RUN SECRET_KEY_BASE=jopa HEXLET_DOCKER_BUILD=1 RAILS_MASTER_KEY=jopa NODE_ENV=production RAILS_ENV=production \
       bin/rails webpacker:compile
 
 COPY . .
 
-RUN SECRET_KEY_BASE=jopa HEXLET_DOCKER_BUILD=1 RAILS_ENV=production bin/rails app:build_job_configs
+RUN rm -rf node_modules tmp/* log/*
+
+# RUN SECRET_KEY_BASE=jopa HEXLET_DOCKER_BUILD=1 RAILS_MASTER_KEY=jopa RAILS_ENV=production bin/rails app:build_job_configs
 # RUN SECRET_KEY_BASE=jopa HEXLET_DOCKER_BUILD=1 RAILS_ENV=production bin/rails sitemap:refresh:no_ping
 
 RUN bundle exec bootsnap precompile --gemfile app/
