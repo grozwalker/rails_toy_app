@@ -37,10 +37,10 @@ jobs:
           push: true
           tags: ${{ env.APP_IMAGE_NAME }}:cached
 
-      - name: Check
-        run: |
-          # TODO Какая-то херня. Выше делается образ, который используется в этом композе, но он его не использует и качает вроде бы этот же образ из реестра.
-          docker-compose --file docker-compose.yml up --abort-on-container-exit
+      # - name: Check
+      #   run: |
+      #     # TODO Какая-то херня. Выше делается образ, который используется в этом композе, но он его не использует и качает вроде бы этот же образ из реестра.
+      #     docker-compose --file docker-compose.yml up --abort-on-container-exit
 
       - name: Push
         uses: docker/build-push-action@v2
