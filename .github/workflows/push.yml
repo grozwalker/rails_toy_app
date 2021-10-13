@@ -67,9 +67,15 @@ jobs:
         with:
           context: .
           file: Dockerfile.production
-          cache-from: type=registry,ref=${{ env.APP_IMAGE_NAME }}:cached
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
           push: true
           tags: ${{ env.APP_IMAGE_NAME }}:latest
+
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
       # - name: Build&Push nginx
       #   uses: docker/build-push-action@v2
