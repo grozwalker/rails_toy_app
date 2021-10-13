@@ -32,9 +32,5 @@ ci-test:
 	bin/rails t
 	bundler exec rubocop
 
-start-production:
-	bin/rails db:migrate
-	bin/rails server -e production
-
 .PHONY: test
 .DEFAULT_GOAL:= up
