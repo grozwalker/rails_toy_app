@@ -56,7 +56,7 @@ jobs:
           load: true
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
-          tags: ${{APP_IMAGE_NAME}}:latest
+          tags: ${{ env.APP_IMAGE_NAME }}:latest
 
       # - name: Check
       #   run: |
